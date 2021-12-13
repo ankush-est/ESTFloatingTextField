@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/ankush-est/ESTFloatingTextField.git', :tag => s.version.to_s }
   s.social_media_url = 'https://www.encoresky.com'
   s.ios.deployment_target = '12.0'
-  s.source_files = 'ESTFloatingTextField/Classes/**/*'
+  s.source_files = 'Classes/**/*.swift'
   s.swift_version = '5.0'
   s.platform = {
     "ios": "12.0"
