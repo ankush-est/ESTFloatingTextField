@@ -30,9 +30,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
   s.source_files = 'Classes/**/*.swift'
   s.swift_version = '5.0'
-  s.platform = {
-    "ios": "12.0"
-  }
+ 
   
   # s.resource_bundles = {
   #   'ESTFloatingTextField' => ['ESTFloatingTextField/Assets/*.png']
