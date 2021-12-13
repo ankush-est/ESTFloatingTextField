@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '12.0'
+
+target 'ESTFloatingTextField_Example' do
+  pod 'ESTFloatingTextField', :path => '../'
+
+  target 'ESTFloatingTextField_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

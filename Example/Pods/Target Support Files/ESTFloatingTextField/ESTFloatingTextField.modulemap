@@ -1,0 +1,6 @@
+framework module ESTFloatingTextField {
+  umbrella header "ESTFloatingTextField-umbrella.h"
+
+  export *
+  module * { export * }
+}

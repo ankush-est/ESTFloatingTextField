@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="ESTFloatingTextField_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rrd-Up-pyN" customClass="ESTFloatingTextField" customModule="ESTFloatingTextField">
+                                <rect key="frame" x="36" y="25" width="303" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="materialPlaceholderEnable" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="floatingOnFocus" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="primaryColor">
+                                        <color key="value" systemColor="linkColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="secondaryColor">
+                                        <color key="value" red="0.30840110780000002" green="0.5618229508" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="Floating OnFocus"/>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mLz-DW-Srf" customClass="ESTFloatingTextField" customModule="ESTFloatingTextField">
+                                <rect key="frame" x="36" y="84" width="303" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="materialPlaceholderEnable" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="floatingOnFocus" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="Floating OnChange"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="primaryColor">
+                                        <color key="value" systemColor="linkColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="secondaryColor">
+                                        <color key="value" red="0.30840110780000002" green="0.5618229508" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DRZ-XO-TZg" customClass="ESTFloatingTextField" customModule="ESTFloatingTextField">
+                                <rect key="frame" x="36" y="143" width="303" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="Simple TextField"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="materialPlaceholderEnable" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="floatingOnFocus" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="DRZ-XO-TZg" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="20" id="P72-Pb-93B"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="DRZ-XO-TZg" secondAttribute="trailing" constant="20" id="SKP-Cy-WFE"/>
+                            <constraint firstItem="Rrd-Up-pyN" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="25" id="USM-MP-RV0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mLz-DW-Srf" secondAttribute="trailing" constant="20" id="Wts-Mw-I0L"/>
+                            <constraint firstItem="DRZ-XO-TZg" firstAttribute="top" secondItem="mLz-DW-Srf" secondAttribute="bottom" constant="25" id="Y3A-3L-DdD"/>
+                            <constraint firstItem="mLz-DW-Srf" firstAttribute="top" secondItem="Rrd-Up-pyN" secondAttribute="bottom" constant="25" id="ZLJ-3j-q1y"/>
+                            <constraint firstItem="Rrd-Up-pyN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="20" id="blC-0C-nB0"/>
+                            <constraint firstItem="mLz-DW-Srf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="20" id="l0w-RV-FBp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Rrd-Up-pyN" secondAttribute="trailing" constant="20" id="pmK-8N-1JQ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2" y="112"/>
+        </scene>
+    </scenes>
+    <designables>
+        <designable name="Rrd-Up-pyN">
+            <size key="intrinsicContentSize" width="147" height="34"/>
+        </designable>
+        <designable name="mLz-DW-Srf">
+            <size key="intrinsicContentSize" width="158" height="34"/>
+        </designable>
+    </designables>
+    <resources>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

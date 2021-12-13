@@ -1,0 +1,16 @@
+PODS:
+  - ESTFloatingTextField (0.1.0)
+
+DEPENDENCIES:
+  - ESTFloatingTextField (from `../`)
+
+EXTERNAL SOURCES:
+  ESTFloatingTextField:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ESTFloatingTextField: c810cfce7d76942572ccbb3ed83a256b31c1b020
+
+PODFILE CHECKSUM: 952b414365b6d6365f9f906930e5e739d68efc0f
+
+COCOAPODS: 1.11.2
