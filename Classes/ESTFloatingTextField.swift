@@ -20,18 +20,27 @@ enum floatingLabelSize: CGFloat {
     case small = 10
 }
 
+enum actionType {
+    case onTextFocusStart
+    case onTextFocusEnd
+    case onTextChange
+}
+
 @IBDesignable public class ESTFloatingTextField: UITextField {
     
     private var placeholderView = UIView()
     private var placeholderLabel = UILabel()
     private var isFocusTextField: Bool = false
+    private var placeHolderValue: String = ""
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        self.placeHolderValue = super.placeholder ?? ""
         Initializer()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.placeHolderValue = super.placeholder ?? ""
         Initializer()
     }
     
@@ -42,25 +51,27 @@ enum floatingLabelSize: CGFloat {
     private func Initializer() {
         self.clipsToBounds = false
         if self.materialPlaceholderEnable {
+            self.MaterialPlaceHolderEnable(materialPlaceholderEnable: true)
             self.addTarget(self, action: #selector(ESTFloatingTextField.onFocusBegin), for: .editingDidBegin)
             self.addTarget(self, action: #selector(ESTFloatingTextField.onFocusEnd), for: .editingDidEnd)
             self.addTarget(self, action: #selector(ESTFloatingTextField.textFieldDidChange), for: .editingChanged)
-            self.MaterialPlaceHolderEnable(materialPlaceholderEnable: true)
-            self.attributedPlaceholder = NSAttributedString(string: placeHolder!, attributes:[NSAttributedString.Key.foregroundColor: secondaryColor!])
         }
     }
+    
+    
     
     // custom placeholder label
     private func MaterialPlaceHolderEnable(materialPlaceholderEnable: Bool) {
         self.materialPlaceholderEnable = materialPlaceholderEnable
         self.placeholderLabel = UILabel()
-        self.placeholderLabel.frame = CGRect(x: 0, y : 0, width : 0, height : self.frame.size.height)
-        self.placeholderLabel.font = UIFont.systemFont(ofSize: 10)
-        self.placeholderLabel.alpha = 0
+        self.placeholderLabel.frame = CGRect(x: self.paddingValue, y : 0, width : 0, height : self.frame.size.height)
+        self.placeholderLabel.font = UIFont.systemFont(ofSize: self.font!.pointSize)
+        self.placeholderLabel.alpha = 1
         self.placeholderLabel.clipsToBounds = true
+        self.placeholderLabel.text = self.placeHolderValue
+        self.placeholderLabel.font = self.placeholderLabel.font.regular()
+        self.layer.borderColor = self.borderColor?.cgColor
         self.addSubview(self.placeholderLabel)
-        self.placeholderLabel.attributedText = self.attributedPlaceholder
-        self.placeholderLabel.sizeToFit()
     }
     
     // MARK: CUSTOM FLOATING TEXTFIELD DESIGN - START
@@ -70,42 +81,73 @@ enum floatingLabelSize: CGFloat {
     
     // on foucs textfield
     @objc private func onFocusBegin() {
-        if self.materialPlaceholderEnable {
-            if self.floatingOnFocus {
-                self.isFocusTextField = true
-                self.placeholderVisible()
-                self.floatingLabelUI()
-            }
-        }
+        self.floatingAnimation(action: .onTextFocusStart)
+//        if self.materialPlaceholderEnable {
+//            if self.floatingOnFocus {
+//                self.placeholderLabel.alpha = 1
+//                self.placeholderLabel.text = super.placeholder
+//                self.placeholder = nil
+//                self.isFocusTextField = true
+//                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) {
+//                    self.placeholderLabel.frame = CGRect(x : 0, y : -self.movement, width : self.frame.size.width, height : self.frame.size.height)
+//                    // animation property
+//                    self.placeholderLabel.font = self.placeholderLabel.font.withSize(self.labelSize)
+//                    self.placeholderLabel.font = self.placeholderLabel.font.bold()
+//                    self.placeholderLabel.textColor = self.primaryColor!
+//                    self.layer.borderColor = self.primaryColor!.cgColor
+//                } completion: { _ in
+//                    //
+//                }
+//            }
+//        }
     }
     
     // on loss foucs textfield
     @objc private func onFocusEnd() {
-        if self.materialPlaceholderEnable {
-            if self.floatingOnFocus {
-                self.isFocusTextField = false
-                self.placeholderVisible()
-                self.floatingLabelUI()
-            }
-        }
+        self.floatingAnimation(action: .onTextFocusEnd)
+//        if self.materialPlaceholderEnable {
+//            if self.floatingOnFocus {
+//                self.isFocusTextField = false
+//                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) {
+//                    self.placeholderLabel.frame = CGRect(x: 10, y : 0, width : self.frame.size.width, height : self.frame.size.height)
+//                    // animation property
+//                    self.placeholderLabel.font = self.placeholderLabel.font.withSize(self.labelSize)
+//                    self.placeholderLabel.font = self.placeholderLabel.font.regular()
+//                    self.placeholderLabel.textColor = self.primaryColor!
+//                    self.layer.borderColor = self.borderColor!.cgColor
+//                } completion: { _ in
+//                    self.placeholderLabel.alpha = 0
+//                    super.placeholder = self.placeholderLabel.text
+//                }
+//            }
+//        }
         self.layer.borderColor = self.borderColor?.cgColor
-        self.placeholderLabel.textColor = self.secondaryColor
+        self.placeholderLabel.textColor = self.primaryColor
     }
     
     // on did tap keyboard
     @objc private func textFieldDidChange() {
-        if self.materialPlaceholderEnable {
-            if self.floatingOnFocus {
-                self.placeholderVisible()
-                self.floatingLabelUI()
-            }
-            else{
-                if (self.text == nil) || (self.text?.count)! > 0 {
-                    self.placeholderVisible()
-                }
-                self.floatingLabelUI()
-            }
+        self.floatingAnimation(action: .onTextChange)
+        if (self.text == nil) || (self.text?.count)! <= 0 {
+            self.placeholderLabel.textColor = self.primaryColor!
+            self.layer.borderColor = self.primaryColor!.cgColor
         }
+        else {
+            self.placeholderLabel.textColor = self.secondaryColor!
+            self.layer.borderColor = self.secondaryColor!.cgColor
+        }
+//        if self.materialPlaceholderEnable {
+//            if self.floatingOnFocus {
+////                self.placeholderVisible()
+//                self.floatingLabelUI()
+//            }
+//            else{
+//                if (self.text == nil) || (self.text?.count)! > 0 {
+//                    self.placeholderVisible()
+//                }
+//                self.floatingLabelUI()
+//            }
+//        }
     }
     
     // MARK: CALLING CUSTOM FLOATING TEXTFIELD - END
@@ -181,6 +223,107 @@ enum floatingLabelSize: CGFloat {
         self.layer.borderColor = self.secondaryColor!.cgColor
     }
 
+    func floatingAnimation(action: actionType) {
+        switch(action) {
+        case .onTextFocusStart:
+            if self.materialPlaceholderEnable {
+                if self.floatingOnFocus {
+                    if (self.text == nil) || (self.text?.count)! <= 0 {
+                        self.placeholderLabel.frame = CGRect(x: self.advanceAnimation == true ? self.paddingValue : 0, y : self.advanceAnimation == true ? 0 : -20, width : self.frame.size.width, height : self.frame.size.height)
+                        self.placeholderLabel.text = self.placeHolderValue
+                        self.placeholder = nil
+                        self.placeholderLabel.alpha = 1
+                        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) {
+                            self.placeholderLabel.frame = CGRect(x : 0, y : -self.movement, width : self.frame.size.width, height : self.frame.size.height)
+                            // animation property
+                            self.placeholderLabel.font = self.placeholderLabel.font.withSize(self.labelSize)
+                            self.placeholderLabel.font = self.placeholderLabel.font.bold()
+                            self.placeholderLabel.textColor = self.primaryColor!
+                            self.layer.borderColor = self.primaryColor!.cgColor
+                        } completion: { _ in
+                            //
+                        }
+                    }
+                }
+            }
+            if (self.text == nil) || (self.text?.count)! <= 0 {
+                self.placeholderLabel.textColor = self.primaryColor!
+                self.layer.borderColor = self.primaryColor!.cgColor
+            }
+            break
+        case .onTextFocusEnd:
+            if self.materialPlaceholderEnable {
+                if self.floatingOnFocus {
+                    if (self.text == nil) || (self.text?.count)! <= 0 {
+                        if !self.advanceAnimation {
+                            self.placeholderLabel.alpha = 0
+                            super.placeholder = self.placeHolderValue
+                        }
+                        else {
+                            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) {
+                                self.placeholderLabel.frame = CGRect(x: self.advanceAnimation == true ? self.paddingValue : 0, y : self.advanceAnimation == true ? 0 : -20, width : self.frame.size.width, height : self.frame.size.height)
+                                // animation property
+                                self.placeholderLabel.font = self.placeholderLabel.font.withSize(self.labelSize)
+                                self.placeholderLabel.font = self.placeholderLabel.font.regular()
+                                self.placeholderLabel.textColor = self.primaryColor!
+                                self.layer.borderColor = self.borderColor!.cgColor
+                            } completion: { _ in
+                                self.placeholderLabel.alpha = 0
+                                super.placeholder = self.placeHolderValue
+                            }
+                        }
+                    }
+                }
+            }
+            break
+        case .onTextChange:
+            if self.materialPlaceholderEnable {
+                if !self.floatingOnFocus {
+                    if (self.text == nil) || (self.text?.count)! <= 0 {
+                        // end animation
+                        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) {
+                            self.placeholderLabel.frame = CGRect(x: self.advanceAnimation == true ? self.paddingValue : 0, y : self.advanceAnimation == true ? 0 : -20, width : self.frame.size.width, height : self.frame.size.height)
+                            // animation property
+                            self.placeholderLabel.font = self.placeholderLabel.font.withSize(self.labelSize)
+                            self.placeholderLabel.font = self.placeholderLabel.font.regular()
+                            self.placeholderLabel.textColor = self.primaryColor!
+                            self.layer.borderColor = self.borderColor!.cgColor
+                        } completion: { _ in
+                            self.placeholderLabel.alpha = 0
+                            super.placeholder = self.placeHolderValue
+                            self.isFocusTextField = false
+                        }
+                    }
+                    else {
+                        // start animation
+                        if !self.isFocusTextField {
+                            self.isFocusTextField = true
+                            self.placeholderLabel.frame = CGRect(x: self.advanceAnimation == true ? self.paddingValue : 0, y : self.advanceAnimation == true ? 0 : -20, width : self.frame.size.width, height : self.frame.size.height)
+                            self.placeholderLabel.text = self.placeHolderValue
+                            self.placeholder = nil
+                            self.placeholderLabel.alpha = 1
+                            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) {
+                                self.placeholderLabel.frame = CGRect(x : 0, y : -self.movement, width : self.frame.size.width, height : self.frame.size.height)
+                                // animation property
+                                self.placeholderLabel.font = self.placeholderLabel.font.withSize(self.labelSize)
+                                self.placeholderLabel.font = self.placeholderLabel.font.bold()
+                                self.placeholderLabel.textColor = self.primaryColor!
+                                self.layer.borderColor = self.primaryColor!.cgColor
+                                
+                            } completion: { _ in
+                                //
+                            }
+                        }
+                    }
+                }
+            }
+            break
+        }
+    }
+    
+    func a(test: actionType){
+        print("actionType: ",test)
+    }
     // MARK: CUSTOM FLOATING TEXTFIELD ANIMATION - END
     
     
@@ -188,7 +331,29 @@ enum floatingLabelSize: CGFloat {
 
     @IBInspectable var materialPlaceholderEnable : Bool = true
     
-    @IBInspectable var floatingOnFocus: Bool = true
+    @IBInspectable var floatingOnFocus: Bool = false
+//    {
+//        didSet {
+//            if self.materialPlaceholderEnable {
+//                self.floatingOnFocus = true
+//            }
+//            else {
+//                self.floatingOnFocus = false
+//            }
+//        }
+//    }
+    
+    @IBInspectable var advanceAnimation: Bool = true
+//    {
+//        didSet {
+//            if self.materialPlaceholderEnable {
+//                self.advanceAnimation = true
+//            }
+//            else {
+//                self.advanceAnimation = false
+//            }
+//        }
+//    }
     
     // theme primary color
     @IBInspectable var primaryColor: UIColor? = UIColor.lightGray {
@@ -200,14 +365,6 @@ enum floatingLabelSize: CGFloat {
     // theme secondary color
     @IBInspectable var secondaryColor: UIColor? = UIColor.lightGray {
         didSet {
-            Initializer()
-        }
-    }
-
-    // placeholder text
-    @IBInspectable var placeHolder: String? = "" {
-        didSet {
-            self.attributedPlaceholder = NSAttributedString(string: placeHolder ?? "")
             Initializer()
         }
     }

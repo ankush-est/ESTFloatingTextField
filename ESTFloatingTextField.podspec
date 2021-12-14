@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ESTFloatingTextField'
-  s.version          = '0.1.0'
+  s.version          = '1.0.0'
   s.summary          = 'ESTFloatingTextField is custom animated floating TextField written in Swift5 & compatable in version 12.0 and greater.'
 
 # This description is used to generate tags and improve search results.
